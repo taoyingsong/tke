@@ -27,14 +27,42 @@ module.exports = {
     filename: 'js/[name].js',
     publicPath: 'http://localhost:8088/'
   },
-
+  // module: {
+  //   rules: [
+  //     {
+  //       test: /\.tsx?$/,
+  //       use: [
+  //         'babel-loader',
+  //         {
+  //           loader: 'ts-loader',
+  //           options: {
+  //             happyPackMode: true,
+  //             transpileOnly: true
+  //           }
+  //         },
+  //         path.resolve(`./loader/iffile-loader.js?version=${version}`),
+  //         path.resolve(`./loader/ifelse-loader.js?version=${version}`)
+  //       ]
+  //     },
+  //     {
+  //       test: /\.jsx?$/,
+  //       use: ['babel-loader'],
+  //       exclude: [path.resolve(__dirname, '../node_modules')]
+  //     },
+  //     {
+  //       test: /\.css?$/,
+  //       use: ['style-loader', 'css-loader']
+  //     }
+  //   ]
+  // },
   module: {
-    rules: [{
+    rules: [
+      {
         test: /\.tsx?$/,
         use: [
           'happypack/loader?id=happyBabel',
           'happypack/loader?id=happyTs',
-          'happypack/loader?id=happyESLint',
+          // 'happypack/loader?id=happyESLint',
           path.resolve(`./loader/iffile-loader.js?version=${version}`),
           path.resolve(`./loader/ifelse-loader.js?version=${version}`)
         ]
@@ -54,27 +82,31 @@ module.exports = {
   plugins: [
     new HappyPack({
       id: 'happyTs',
-      loaders: [{
-        loader: 'ts-loader',
-        options: {
-          happyPackMode: true,
-          transpileOnly: true
+      loaders: [
+        {
+          loader: 'ts-loader',
+          options: {
+            happyPackMode: true,
+            transpileOnly: true
+          }
         }
-      }],
+      ],
       threadPool: happyThreadPool
     }),
 
-    new HappyPack({
-      id: 'happyESLint',
-      loaders: [{
-        loader: 'eslint-loader',
-        options: {
-          failOnWarning: true,
-          failOnError: true
-        }
-      }],
-      threadPool: happyThreadPool
-    }),
+    // new HappyPack({
+    //   id: 'happyESLint',
+    //   loaders: [
+    //     {
+    //       loader: 'eslint-loader',
+    //       options: {
+    //         failOnWarning: true,
+    //         failOnError: true
+    //       }
+    //     }
+    //   ],
+    //   threadPool: happyThreadPool
+    // }),
 
     new HappyPack({
       id: 'happyBabel',
@@ -92,10 +124,9 @@ module.exports = {
       summary: false
     }),
 
-    new ForkTsCheckerWebpackPlugin({
-      async: false,
-      checkSyntacticErrors: true
-    }),
+    // new ForkTsCheckerWebpackPlugin({
+    //   async: false
+    // }),
 
     new webpack.HotModuleReplacementPlugin()
   ],

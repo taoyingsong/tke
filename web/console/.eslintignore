@@ -7,3 +7,4 @@ typings/*
 **.lock
 tsconfig.json
 build/*
+lib/*
